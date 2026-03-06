@@ -1,44 +1,43 @@
-# Stage 1: Cài đặt dependencies
+# Install dependencies
 FROM node:20-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Copy các tệp định nghĩa thư viện để tận dụng cache của Docker
+# Copy file
 COPY package.json package-lock.json* ./
 RUN npm ci
 
-# Stage 2: Xây dựng ứng dụng (Build)
+# Build
 FROM node:20-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# NHẬN BIẾN MÔI TRƯỜNG LÚC BUILD (Rất quan trọng để kết nối API)
+# Know the enviroment
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN npm run build
 
-# Stage 3: Chạy ứng dụng (Runtime)
+# Run application runtime
 FROM node:20-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
 
-# Tạo user không có quyền root để bảo mật (tương tự phía BE của bạn)
+# Create no-root user
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Copy các file cần thiết cho môi trường Production
+# Copy file
 COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 
-# Chuyển sang user không có quyền root
+# Change to no-root permission user
 USER nextjs
 
 EXPOSE 3000
