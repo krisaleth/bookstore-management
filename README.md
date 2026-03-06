@@ -4,6 +4,15 @@ Dự án là một hệ thống Full-stack hoàn chỉnh, cho phép người dù
 
 ---
 
+## Các tài liệu khác (Another documents)
+
+#### [Docker Setup Guide](https://github.com/krisaleth/bookstore-management/blob/main/README-Docker.md)
+#### [English Translation](https://github.com/krisaleth/bookstore-management/blob/main/README-English.md)
+
+---
+
+---
+
 ## 1. PHÂN TÍCH THIẾT KẾ CƠ SỞ DỮ LIỆU (DATABASE DESIGN)
 
 Hệ thống sử dụng cơ sở dữ liệu quan hệ **MySQL 8.0** với các thực thể chính:
@@ -12,8 +21,6 @@ Hệ thống sử dụng cơ sở dữ liệu quan hệ **MySQL 8.0** với các
 * **Books**: Lưu trữ thông tin sách, ISBN, giá, số lượng tồn kho và đường dẫn ảnh bìa.
 * **Authors & Categories**: Thông tin tác giả và thể loại (Quan hệ Nhiều-Nhiều với Books).
 * **Orders & OrderItems**: Lưu trữ thông tin đơn hàng. `OrderItem` đóng vai trò lưu lại giá sách tại thời điểm mua (Snapshot) để đối soát hóa đơn về sau.
-
-
 
 ---
 
@@ -34,8 +41,6 @@ Hệ thống được thiết kế với luồng trải nghiệm người dùng 
 * **Quản lý Danh mục/Tác giả**: CRUD các thực thể liên quan.
 * **Quản lý Đơn hàng**: Xem danh sách đơn hàng toàn hệ thống và cập nhật trạng thái (Chờ xử lý -> Đang giao -> Đã giao).
 
-
-
 ---
 
 ## 3. GIẢI THUẬT CỐT LÕI (CORE ALGORITHMS)
@@ -43,8 +48,6 @@ Hệ thống được thiết kế với luồng trải nghiệm người dùng 
 * **Xử lý Thanh toán & Tồn kho**: Khi một đơn hàng được tạo, hệ thống thực hiện kiểm tra số lượng tồn (`stock`). Nếu đủ, đơn hàng được tạo và số lượng `stock` sẽ được trừ tương ứng trong một **Database Transaction** để đảm bảo tính nhất quán.
 * **Xác thực JWT**: Frontend gửi thông tin đăng nhập, Backend kiểm tra và trả về một **JSON Web Token**. Token này được lưu ở Cookie và gửi kèm trong header `Authorization` ở các request sau để xác thực quyền truy cập.
 * **Snapshot Giá**: Giá sách trong `OrderItem` được lưu cố định lúc mua. Điều này đảm bảo khi Admin thay đổi giá sách ở bảng `Books`, doanh thu của các đơn hàng cũ trong quá khứ không bị thay đổi theo.
-
-
 
 ---
 
