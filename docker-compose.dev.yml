@@ -26,7 +26,7 @@ services:
   bookstore-api-dev:
     build:
       context: .
-      dockerfile: Dockerfile # Đảm bảo Dockerfile sử dụng 'spring-boot:run' hoặc tương đương cho dev
+      dockerfile: Dockerfile 
     container_name: bookstore-api-dev
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/bookstore_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
@@ -34,13 +34,13 @@ services:
       SPRING_DATASOURCE_PASSWORD: bookstore_pass
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_PROFILES_ACTIVE: dev
-      JWT_SECRET: mySecretKeyForJWTTokenGenerationThatIsAtLeast256BitsLongForHS256Algorithm
+      JWT_SECRET: 
     ports:
       - "8080:8080"
-      - "5005:5005" # Cổng để Remote Debug nếu cần
+      - "5005:5005"
     volumes:
-      - .:/app # Mount code backend để hỗ trợ dev mode
-      - ~/.m2:/root/.m2 # Cache các file maven để build nhanh hơn
+      - .:/app
+      - ~/.m2:/root/.m2
     depends_on:
       mysql:
         condition: service_healthy
@@ -50,7 +50,7 @@ services:
   bookstore-frontend-dev:
     build:
       context: ./frontend
-      dockerfile: Dockerfile.dev # Sử dụng Dockerfile riêng cho môi trường dev
+      dockerfile: Dockerfile.dev
     container_name: bookstore-frontend-dev
     environment:
       NEXT_PUBLIC_API_URL: http://bookstore-api-dev:8080/api
@@ -58,8 +58,8 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend:/app # Mount thư mục frontend
-      - /app/node_modules # Giữ lại node_modules bên trong container (không bị ghi đè bởi máy thật)
+      - ./frontend:/app
+      - /app/node_modules
     depends_on:
       - bookstore-api-dev
     networks:
