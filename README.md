@@ -11,8 +11,6 @@ Dự án là một hệ thống Full-stack hoàn chỉnh, cho phép người dù
 
 ---
 
----
-
 ## 1. PHÂN TÍCH THIẾT KẾ CƠ SỞ DỮ LIỆU (DATABASE DESIGN)
 
 Hệ thống sử dụng cơ sở dữ liệu quan hệ **MySQL 8.0** với các thực thể chính:
