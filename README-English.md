@@ -25,7 +25,7 @@ The system is designed with an optimized user experience flow through the follow
 * **Book Details**: Displays content description, price, and in-stock/out-of-stock status.
 * **Cart**: Manages the list of books waiting to be purchased.
 * **Checkout**: Enters delivery information and confirms the order.
-* **Đăng nhập/Đăng ký**: Manage personal accounts.
+* **Login/Register**: Manage personal accounts.
 
 ### 2.2. Admin Dashboard
 * **Book Management**: Add new books (with image upload), update information and quantity in stock.
